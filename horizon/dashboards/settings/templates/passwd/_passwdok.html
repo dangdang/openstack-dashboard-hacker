@@ -1,0 +1,24 @@
+{% extends 'settings/base.html' %}
+{% load i18n %}
+{% block title %}User Settings{% endblock %}
+
+{% block page_header %}
+  {% include "horizon/common/_page_header.html" with title=_("Change Password") %}
+{% endblock page_header %}
+
+{% block settings_main %}
+<div class="left">
+    
+    <fieldset>
+     {{ request.user.username }} 密码修改 
+     {% if msg_result %}
+    成功,重新登录时生效!
+{% else %}
+    失败<br>
+    失败原因：两次输入密码不一致或者输入的密码长度小于6
+{% endif %}
+    !
+    </fieldset>
+ <!-- debug:{{keystone_r}} -->
+</div>
+{% endblock %}
