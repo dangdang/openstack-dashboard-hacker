@@ -14,6 +14,9 @@ Openstack Horizon hacker for public cloud iaas plateform in china
 3.增强的中文汉化包
 
 联系方式：
+
 Lion
+
 QQ: 11315889
+
 E-mail:11315889@qq.com
