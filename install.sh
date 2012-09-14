@@ -10,5 +10,6 @@ ln -s /usr/share/pyshared/horizon/dashboards/settings/passwd/* /usr/lib/python2.
 mkdir -p /usr/lib/python2.7/dist-packages/horizon/dashboards/settings/templates/settings/passwd
 ln -s /usr/share/pyshared/horizon/dashboards/settings/templates/settings/passwd/*.html /usr/lib/python2.7/dist-packages/horizon/dashboards/settings/templates/settings/passwd/
 
+#Create 
 #Change for passwd  /usr/share/pyshared/horizon/dashboards/settings/dashboard.py
 sed -i "s/panels = ('user', 'project'/panels = ('user', 'passwd', 'project'/g" /usr/share/pyshared/horizon/dashboards/settings/dashboard.py
