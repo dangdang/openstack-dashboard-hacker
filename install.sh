@@ -14,3 +14,6 @@ ln -s /usr/share/pyshared/horizon/dashboards/settings/templates/settings/passwd/
 #Create 
 #Change for passwd  /usr/share/pyshared/horizon/dashboards/settings/dashboard.py
 sed -i "s/panels = ('user', 'project'/panels = ('user', 'passwd', 'project'/g" /usr/share/pyshared/horizon/dashboards/settings/dashboard.py
+
+#restart apache
+service apach2 restart
