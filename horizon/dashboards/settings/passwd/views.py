@@ -30,7 +30,7 @@ def set_passwd(request):
     except:
         return shortcuts.render(request, 'settings/passwd/settings.html', {})
     r=""
-    if(len(pass1)>=6 and pass1==pass2):
+    if(len(pass1)>=6 and pass1==pass2 and request.user.username!='admin'):
         r=keystone.user_update_password(request, request.user.id,pass1, True)
         msg=True
     else:
