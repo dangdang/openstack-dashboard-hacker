@@ -3,6 +3,7 @@
 #复制安装文件，替换
 cp -Rf ./horizon /usr/share/pyshared/
 
+
 #修改floating_ip使之按项目分组
 sed -i 's/for pool in api.floating_ip_pools_list(self.request)]/for pool in api.keystone.tenant_list(self.request)]/g' /usr/share/pyshared/horizon/dashboards/nova/access_and_security/floating_ips/views.py
 
