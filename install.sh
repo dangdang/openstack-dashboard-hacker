@@ -1,4 +1,5 @@
 #!/bin/bash
+#copy files
 cp -Rf ./horizon /usr/share/pyshared/
 
 #floating ips view.py
@@ -8,8 +9,9 @@ sed -i 's/for pool in api.floating_ip_pools_list(self.request)]/for pool in api.
 mkdir -p /usr/lib/python2.7/dist-packages/horizon/dashboards/settings/passwd
 ln -s /usr/share/pyshared/horizon/dashboards/settings/passwd/* /usr/lib/python2.7/dist-packages/horizon/dashboards/settings/passwd/
 mkdir -p /usr/lib/python2.7/dist-packages/horizon/dashboards/settings/templates/settings/passwd
-ln -s /usr/share/pyshared/horizon/dashboards/settings/templates/settings/passwd/*.html /usr/lib/python2.7/dist-packages/horizon/dashboards/settings/templates/settings/passwd/
-
+ln -s /usr/share/pyshared/horizon/dashboards/settings/templates/settings/passwd/* /usr/lib/python2.7/dist-packages/horizon/dashboards/settings/templates/settings/passwd/
+/usr/share/pyshared/horizon/dashboards/settings/templates/passwd/
+/usr/share/pyshared/horizon/dashboards/settings/templates/settings/passwd/
 #Create 
 #Change for passwd  /usr/share/pyshared/horizon/dashboards/settings/dashboard.py
 sed -i "s/panels = ('user', 'project'/panels = ('user', 'passwd', 'project'/g" /usr/share/pyshared/horizon/dashboards/settings/dashboard.py
