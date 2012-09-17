@@ -1,8 +1,5 @@
 #!/bin/bash
 echo "Running Openstack Dashboard hacker..."
-read -p "Please input your keystone administrator username(admin):" username
-read -p "Please input your keystone administrator password(password):" password
-
 #copy files
 cp -Rf ./horizon /usr/share/pyshared/
 
