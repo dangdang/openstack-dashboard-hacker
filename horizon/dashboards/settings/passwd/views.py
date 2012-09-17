@@ -20,6 +20,7 @@ from django import shortcuts
 from django.template import response
 from horizon.api import keystone 
 import sys
+import ConfigParser
 
 def index(request):
     return shortcuts.render(request, 'settings/passwd/settings.html', {})
@@ -33,7 +34,11 @@ def set_passwd(request):
     r=""
     if(len(pass1)>=6 and pass1==pass2 and request.user.username!='admin'):
         #r=keystone.user_update_password(request, request.user.id,pass1, True)
-        sys.poen('keystone --os_username=admin --os_password=passworD! user-password-update --pass=%s %s' % (pass1,request.user.id))
+        cfg=ConfigParser.ConfigParser()
+        cfg.read('/etc/nova/api-paste.ini')
+        keystone_cfg=dict(cfg.items('filter:authtoken'))
+        cmd='/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s  user-password-update --pass=%s %s' % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],keystone_cfg['auth_uri'],pass1,request.user.id)
+        os.system(cmd)
         msg=True
     else:
         msg=False
