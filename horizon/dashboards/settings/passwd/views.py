@@ -19,7 +19,7 @@
 from django import shortcuts
 from django.template import response
 from horizon.api import keystone 
-import sys
+import os
 import ConfigParser
 
 def index(request):

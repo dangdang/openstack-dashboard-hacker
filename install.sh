@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Running Openstack Dashboard hacker..."
-Change api-paste.ini permission for django reading
+#Change api-paste.ini permission for django reading
 chmod 755 /etc/nova
 chmod 644 /etc/nova/api-paste.ini
 #copy files
