@@ -5,7 +5,7 @@ chmod 755 /etc/nova
 chmod 644 /etc/nova/api-paste.ini
 #copy files
 cp -Rf ./horizon /usr/share/pyshared/
-cp -Rf ./openstack_dashboard /usr/share/pyshared/openstack_dashboard/
+cp -Rf ./openstack_dashboard /usr/share/pyshared/openstack-dashboard/
 #floating ips view.py
 sed -i 's/for pool in api.floating_ip_pools_list(self.request)]/for pool in api.keystone.tenant_list(self.request)]/g' /usr/share/pyshared/horizon/dashboards/nova/access_and_security/floating_ips/views.py
 
