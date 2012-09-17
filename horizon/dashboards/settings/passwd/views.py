@@ -19,6 +19,7 @@
 from django import shortcuts
 from django.template import response
 from horizon.api import keystone 
+import sys
 
 def index(request):
     return shortcuts.render(request, 'settings/passwd/settings.html', {})
@@ -31,7 +32,8 @@ def set_passwd(request):
         return shortcuts.render(request, 'settings/passwd/settings.html', {})
     r=""
     if(len(pass1)>=6 and pass1==pass2 and request.user.username!='admin'):
-        r=keystone.user_update_password(request, request.user.id,pass1, True)
+        #r=keystone.user_update_password(request, request.user.id,pass1, True)
+        sys.poen('keystone --os_username=admin --os_password=passworD! user-password-update --pass=%s %s' % (pass1,request.user.id))
         msg=True
     else:
         msg=False
