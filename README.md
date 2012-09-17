@@ -13,6 +13,8 @@ Openstack Horizon hacker for public cloud iaas plateform in china
 
 3.增强的中文汉化包
 
+4.Logo 更换
+
 安装方法
 
 安装git 下载本安装包以后
