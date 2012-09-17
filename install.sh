@@ -15,11 +15,11 @@ ln -sf /usr/share/pyshared/horizon/dashboards/settings/passwd/* /usr/lib/python2
 mkdir -p /usr/lib/python2.7/dist-packages/horizon/dashboards/settings/templates/settings/passwd
 ln -sf /usr/share/pyshared/horizon/dashboards/settings/templates/settings/passwd/* /usr/lib/python2.7/dist-packages/horizon/dashboards/settings/templates/settings/passwd/
 
-#Create 
+
 #Change for passwd  /usr/share/pyshared/horizon/dashboards/settings/dashboard.py
 sed -i "s/panels = ('user', 'project'/panels = ('user', 'passwd', 'project'/g" /usr/share/pyshared/horizon/dashboards/settings/dashboard.py
 
 #restart apache
 service apache2 restart
 
-echo "All processes has  finished. "
+echo "All processes has been finished. "
