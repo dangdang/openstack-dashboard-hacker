@@ -13,6 +13,11 @@ Openstack Horizon hacker for public cloud iaas plateform in china
 
 3.增强的中文汉化包
 
+安装方法
+安装git 下载本安装包以后
+运行根目录下的 install.sh即可。
+bash install.sh
+
 联系方式：
 
 Lion
