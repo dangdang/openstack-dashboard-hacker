@@ -34,8 +34,7 @@ def register_do(request):
     #except:
     if(len(username)>3 and len(password)>5 and password==comfirm_password):
         cfg=ConfigParser.ConfigParser()
-        #cfg.read('/etc/nova/api-paste.ini')
-        cfg.read('D:\\Java\\workspace\\horizon\\api-paste.ini')
+        cfg.read('/etc/nova/api-paste.ini')
         keystone_cfg=dict(cfg.items('filter:authtoken'))
         tenant_cmd='/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s tenant-create --name %s |grep id |awk "{print $4}"'% (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,tenantname)
         tenant_cmd_op=commands.getstatusoutput(tenant_cmd)
