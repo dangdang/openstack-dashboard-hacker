@@ -19,7 +19,12 @@ ln -sf /usr/share/pyshared/horizon/dashboards/settings/templates/settings/passwd
 sed -i "s/panels = ('user', 'project'/panels = ('user', 'passwd', 'project'/g" /usr/share/pyshared/horizon/dashboards/settings/dashboard.py
 
 #add register function
-echo -e "urlpatterns += patterns('horizon.register.views',\n url(r'^register$', 'register', name='register'),\n url(r'register/do/$','register_do', name='register_do')\n )" >> /usr/share/pyshared/horizon/site_urls.py
+mkdir -p /usr/lib/python2.7/dist-packages/horizon/register
+ln -sf /usr/share/pyshared/horizon/register/* /usr/lib/python2.7/dist-packages/horizon/register
+mkdir -p /usr/lib/python2.7/dist-packages/horizon/templates/horizon/register
+ln -sf /usr/share/pyshared/horizon/templates/horizon/register/* /usr/lib/python2.7/dist-packages/horizon/templates/horizon/register/
+
+echo -e "\n urlpatterns += patterns('horizon.register.views',\n url(r'^register$', 'register', name='register'),\n url(r'register/do/$','register_do', name='register_do')\n )" >> /usr/share/pyshared/horizon/site_urls.py
 
 #restart apache
 service apache2 restart
