@@ -8,7 +8,8 @@
 
 {% block modal-body %}
   <fieldset>
-    <h3 class="alert-error">{{error}}</h3>
+  <legend  class="alert-error">{{error}}</legend>
+    
     {% if next %}<input type="hidden" name="{{ redirect_field_name }}" value="{{ next }}" />{% endif %}
     {% include "horizon/common/_form_fields.html" %}
   </fieldset>
