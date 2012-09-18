@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: openstack-dashboard\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-29 11:47-0700\n"
-"PO-Revision-Date: 2012-09-14 15:55+0800\n"
+"PO-Revision-Date: 2012-09-18 18:01+0800\n"
 "Last-Translator: Shawn Liang <11315889@qq.com>\n"
 "Language-Team: Simplified Chinese <11315889@qq.com>\n"
 "Language: Simplified Chinese\n"
@@ -158,10 +158,6 @@ msgstr "地址池"
 msgid ""
 "Successfully allocated Floating IP \"%(ip)s\" to project \"%(project)s\""
 msgstr "成功分配公网IP \"%(ip)s\" 到项目 \"%(project)s\""
-
-#: dashboards/nova/access_and_security/floating_ips/forms.py:94
-msgid "Unable to allocate Floating IP."
-msgstr "无法分配公网IP"
 
 #: dashboards/nova/access_and_security/floating_ips/tables.py:35
 msgid "Allocate IP To Project"
@@ -2637,14 +2633,13 @@ msgstr "不能自动为您分配公网IP，您可能需要向管理员申请，�
 msgid "Register a new user"
 msgstr "注册新用户"
 
-msgid "User Name"
-msgstr "用户名"
-
 msgid "Register"
 msgstr "注册"
 
 msgid "Return to Index"
 msgstr "返回首页"
 
-msgid "Error : Username length must be greater than 3, Password length must be greater than 6, Confirm password must be same with Password."
+msgid ""
+"Error : Username length must be greater than 3, Password length must be "
+"greater than 6, Confirm password must be same with Password."
 msgstr "错误：用户名长度至少3位，密码长度至少6位，同时请输入确认密码"
