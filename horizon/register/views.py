@@ -5,14 +5,10 @@ Created on 2012-9-17
 '''
 from django import shortcuts
 from django.conf import settings
-from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.template.context import Context
-from horizon.api import keystone
 from horizon.register import forms  as _regform
 from openstack_dashboard.views import user_home
 import ConfigParser
 import commands
-import os
 
 def register(request):
     if request.user.is_authenticated():
