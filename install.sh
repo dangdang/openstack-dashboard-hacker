@@ -24,8 +24,7 @@ ln -sf /usr/share/pyshared/horizon/register/* /usr/lib/python2.7/dist-packages/h
 mkdir -p /usr/lib/python2.7/dist-packages/horizon/templates/horizon/register
 ln -sf /usr/share/pyshared/horizon/templates/horizon/register/* /usr/lib/python2.7/dist-packages/horizon/templates/horizon/register/
 
-echo -e "\n urlpatterns += patterns('horizon.register.views',\n url(r'^register$', 'register', name='register'),\n url(r'register/do/$','register_do', name='register_do')\n )" >> /usr/share/pyshared/horizon/site_urls.py
-
+echo "urlpatterns += patterns('horizon.register.views',url(r'^register$', 'register', name='register'),url(r'register/do/$','register_do', name='register_do'))" >> /usr/share/pyshared/horizon/site_urls.py
 sed -i 's/<button type="submit" class="btn btn-primary pull-right">{% trans "Sign In" %}<\/button>/<a href="\/register" class="btn  pull-left">{% trans "Register a new user" %}<\/a><button type="submit" class="btn btn-primary pull-right">{% trans "Sign In" %}<\/button>/g' /usr/share/pyshared/horizon/templates/horizon/auth/_login.html
 
 #restart apache
