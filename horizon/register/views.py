@@ -33,15 +33,15 @@ def register_do(request):
         cfg=ConfigParser.ConfigParser()
         cfg.read('/etc/nova/api-paste.ini')
         keystone_cfg=dict(cfg.items('filter:authtoken'))
-        tenant_cmd='/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s tenant-create --name %s |grep id |awk "{print $4}"'% (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,tenantname)
+        tenant_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s tenant-create --name %s |grep id |awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,tenantname)
         tenant_cmd_op=commands.getstatusoutput(tenant_cmd)
-        if(tenant_cmd_op[0]==0):
-            user_cmd='/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s user-create --name %s --tenant_id %s --pass %s --email %s |grep id |awk "{print $4}"'% (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,username,tenant_cmd_op[1],password,email)
+        if(len(tenant_cmd_op[1])==32):
+            user_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s user-create --name %s --tenant_id %s --pass %s --email %s |grep id |awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,username,tenant_cmd_op[1],password,email)
             user_cmd_op=commands.getstatusoutput(user_cmd)
-            if(user_cmd_op[0]==0):
+            if(len(user_cmd_op[1])==32):
                 return shortcuts.render(request, 'horizon/register/register_do.html', {'username':username,'email':email})
             else:
-                er=_('Create User fail')
+                er=_('Create User fail.')
         else:
             er=_('Create Tenant fail.')
     else:   
