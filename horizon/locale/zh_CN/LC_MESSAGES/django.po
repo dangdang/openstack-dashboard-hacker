@@ -2630,3 +2630,21 @@ msgstr "成功禁用用户： %s"
 
 msgid "Change Password"
 msgstr "修改密码"
+
+msgid "Unable to allocate Floating IP."
+msgstr "不能自动为您分配公网IP，您可能需要向管理员申请，电话010-64823701-8016"
+
+msgid "Register a new user"
+msgstr "注册新用户"
+
+msgid "User Name"
+msgstr "用户名"
+
+msgid "Register"
+msgstr "注册"
+
+msgid "Return to Index"
+msgstr "返回首页"
+
+msgid "Error : Username length must be greater than 3, Password length must be greater than 6, Confirm password must be same with Password."
+msgstr "错误：用户名长度至少3位，密码长度至少6位，同时请输入确认密码"
