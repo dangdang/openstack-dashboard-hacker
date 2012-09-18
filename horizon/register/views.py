@@ -5,7 +5,7 @@ Created on 2012-9-17
 '''
 from django import shortcuts
 from django.conf import settings
-from horizon.register import forms  as _regform
+from horizon.register import forms as _regform
 from openstack_dashboard.views import user_home
 from django.utils.translation import ugettext_lazy as _
 import ConfigParser
@@ -36,7 +36,7 @@ def register_do(request):
         tenant_cmd='/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s tenant-create --name %s |grep id |awk "{print $4}"'% (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,tenantname)
         tenant_cmd_op=commands.getstatusoutput(tenant_cmd)
         if(tenant_cmd_op[0]==0):
-            user_cmd='/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s tenant-create --name %s |grep id |awk "{print $4}"'% (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,username,tenant_cmd_op[1],password,email)
+            user_cmd='/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s user-create --name %s --tenant_id %s --pass %s --email %s |grep id |awk "{print $4}"'% (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,username,tenant_cmd_op[1],password,email)
             user_cmd_op=commands.getstatusoutput(user_cmd)
             if(user_cmd_op[0]==0):
                 return shortcuts.render(request, 'horizon/register/register_do.html', {'username':username,'email':email})
