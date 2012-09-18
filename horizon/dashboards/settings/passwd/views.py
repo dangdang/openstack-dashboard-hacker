@@ -38,7 +38,7 @@ def set_passwd(request):
         cfg=ConfigParser.ConfigParser()
         cfg.read('/etc/nova/api-paste.ini')
         keystone_cfg=dict(cfg.items('filter:authtoken'))
-        cmd='/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%sv2.0  user-password-update --pass=%s %s' % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,pass1,request.user.id)
+        cmd='/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s  user-password-update --pass=%s %s' % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,pass1,request.user.id)
         os.system(cmd)
         msg=True
     else:

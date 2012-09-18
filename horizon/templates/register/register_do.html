@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% block content %}
+  恭喜你，注册成功。你的注册信息为：
+ <p>
+ 用户名:{{username}}
+Email:{{email}}
+ </p>
+ 点下面连接返回首页登录
+ <a href="/" class="btn pull-left">{% trans "Return to Index" %}</a>
+{% endblock %}
