@@ -15,6 +15,8 @@ Openstack Horizon hacker for public cloud iaas plateform in china
 
 4.Logo 更换
 
+5.租户自助注册功能
+
 安装方法
 
 安装git 下载本安装包以后
