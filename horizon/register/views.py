@@ -16,8 +16,17 @@ def register(request):
         return shortcuts.redirect(user_home(request.user))
     regform = _regform.RegForm()
     request.session.clear()
-    
-    return shortcuts.render(request, 'horizon/register/index.html', {'form': regform})
+    try:
+        re=settings.REGISTER_ENABLED
+        re_declare=settings.REGISTER_DISABLE_DECLARE
+    except:
+        re=True
+        re_declare=""
+        
+    if(re):
+        return shortcuts.render(request, 'horizon/register/index.html', {'form': regform})
+    else:
+        return shortcuts.render(request, 'horizon/register/register_disable.html', {'declare': re_declare})
 
 
 def register_do(request):

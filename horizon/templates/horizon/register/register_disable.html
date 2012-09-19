@@ -1,0 +1,13 @@
+{% extends "horizon/register/index.html" %}
+{% load i18n %}
+
+{% block content %}
+ <p>
+
+
+<h3 class="alert-error">抱歉：用户注册功能暂时不可用。<br>
+{{declare}}
+</h3>
+ </p>
+ <a href="/" class="btn pull-left">{% trans "Return to Index" %}</a>
+{% endblock %}
