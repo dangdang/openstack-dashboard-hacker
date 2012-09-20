@@ -3,11 +3,12 @@ Created on 2012-9-17
 
 @author: Lion
 '''
+
 from django import shortcuts
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 from horizon.register import forms as _regform
 from openstack_dashboard.views import user_home
-from django.utils.translation import ugettext_lazy as _
 import ConfigParser
 import commands
 
@@ -31,7 +32,6 @@ def register(request):
 
 def register_do(request):
     regform = _regform.RegForm()
-    #try:
     username = request.POST['username']
     password=request.POST['password']
     comfirm_password=request.POST['confirm_password']
@@ -45,14 +45,14 @@ def register_do(request):
         tenant_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s tenant-create --name %s |grep id |awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,tenantname)
         tenant_cmd_op=commands.getstatusoutput(tenant_cmd)
         if(len(tenant_cmd_op[1])==32):
-            user_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s user-create --name %s --tenant_id %s --pass %s --email %s |grep id |awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,username,tenant_cmd_op[1],password,email)
+            user_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s user-create --name %s --tenant_id %s --pass %s --email %s |sed -n '6p' | awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,username,tenant_cmd_op[1],password,email)
             user_cmd_op=commands.getstatusoutput(user_cmd)
             if(len(user_cmd_op[1])==32):
                 return shortcuts.render(request, 'horizon/register/register_do.html', {'username':username,'email':email})
             else:
-                er=_('Create User fail.')
+                er=_('Create User fail, User name perhaps exist')
         else:
-            er=_('Create Tenant fail.')
+            er=_('Create Tenant fail, Tenant name perhaps exist.')
     else:   
         er=_('Error : Username length must be greater than 3, Password length must be greater than 6, Confirm password must be same with Password.')
         
