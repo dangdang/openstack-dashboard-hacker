@@ -45,7 +45,8 @@ class RegForm(forms.SelfHandlingForm):
 
     Subclass of :class:`~horizon.forms.SelfHandlingForm`.
     """
-    username = forms.CharField(label=_("User Name"))
+    
+    username = forms.CharField(label=_("User Name"),max_length=30,required=True,error_messages={'required': _('Please enter your username')})
     email = forms.EmailField(label=_("E-mail"))
     password = forms.RegexField(
             label=_("Password"),
