@@ -1,5 +1,9 @@
 #!/bin/bash
 echo "Running Openstack Dashboard hacker..."
+
+#change vnc iframe windows size
+sed -i 's/width="720" height="430"/width="100%" height="800"/g' /usr/share/pyshared/horizon/dashboards/nova/templates/nova/instances_and_volumes/instances/_detail_vnc.html
+
 #Change api-paste.ini permission for django reading
 chmod 755 /etc/nova
 chmod 644 /etc/nova/api-paste.ini
@@ -26,7 +30,11 @@ ln -sf /usr/share/pyshared/horizon/templates/horizon/register/* /usr/lib/python2
 sed -i "s/urlpatterns += patterns('horizon.register.views',url(r'^register$', 'register', name='register'),url(r'register\/do\/$','register_do', name='register_do'))//g" /usr/share/pyshared/horizon/site_urls.py
 echo "urlpatterns += patterns('horizon.register.views',url(r'^register$', 'register', name='register'),url(r'register/do/$','register_do', name='register_do'))" >> /usr/share/pyshared/horizon/site_urls.py
 sed -i 's/<button type="submit" class="btn btn-primary pull-right">{% trans "Sign In" %}<\/button>/<a href="\/register" class="btn  pull-left">{% trans "Register a new user" %}<\/a><button type="submit" class="btn btn-primary pull-right changed">{% trans "Sign In" %}<\/button>/g' /usr/share/pyshared/horizon/templates/horizon/auth/_login.html
-
+#disable register
+sed -i "s/REGISTER_ENABLED=True//g"  /etc/openstack-dashboard/local_settings.py
+sed -i 's/REGISTER_DISABLE_DECLARE="Register is disabled"//g' /etc/openstack-dashboard/local_settings.py
+echo "REGISTER_ENABLED=True" >> /etc/openstack-dashboard/local_settings.py
+echo 'REGISTER_DISABLE_DECLARE="Register is disabled"' >> /etc/openstack-dashboard/local_settings.py
 #restart apache
 service apache2 restart
 

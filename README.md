@@ -17,6 +17,8 @@ Openstack Horizon hacker for public cloud iaas plateform in china
 
 5.租户自助注册功能
 
+6.修改VNC窗口显示大小
+
 安装方法
 
 安装git 下载本安装包以后
