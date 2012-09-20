@@ -52,7 +52,7 @@ def register_do(request):
             else:
                 er=_('Create User fail, User name perhaps exist')
         else:
-            er=_('Create User')
+            er=_('Create User fail, User name perhaps exist')
     else:   
         er=_('Error : Username length must be greater than 3, Password length must be greater than 6, Confirm password must be same with Password.')
         
