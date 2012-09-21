@@ -33,41 +33,31 @@ def register(request):
 
 def register_do(request):
     rf=RegForm(request.POST)
+    er=""
     if rf.is_valid():
         #assert False
         d=rf.cleaned_data 
         username = d['username']
         password=d['password']
-        comfirm_password=d['confirm_password']
         tenantname=username
         email = d['email']
-        if(len(password)>6 and password==comfirm_password):
             #assert False
-            cfg=ConfigParser.ConfigParser()
-            cfg.read('/etc/nova/api-paste.ini')
-            keystone_cfg=dict(cfg.items('filter:authtoken'))
-            tenant_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s tenant-create --name %s |grep id |awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,tenantname)
-            tenant_cmd_op=commands.getstatusoutput(tenant_cmd)
-            if(len(tenant_cmd_op[1])==32):
-                user_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s user-create --name %s --tenant_id %s --pass %s --email %s |sed -n '6p' | awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,username,tenant_cmd_op[1],password,email)
-                user_cmd_op=commands.getstatusoutput(user_cmd)
-                if(len(user_cmd_op[1])==32):
-                    return shortcuts.render(request, 'horizon/register/index.html', {'username':username,'email':email})
-                else:
-                    er=_('Create User fail, User name perhaps exist')
+        #return shortcuts.render(request, 'horizon/register/index.html', {'username':username,'email':email})
+        cfg=ConfigParser.ConfigParser()
+        cfg.read('/etc/nova/api-paste.ini')
+        keystone_cfg=dict(cfg.items('filter:authtoken'))
+        tenant_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s tenant-create --name %s |grep id |awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,tenantname)
+        tenant_cmd_op=commands.getstatusoutput(tenant_cmd)
+        if(len(tenant_cmd_op[1])==32):
+            user_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s user-create --name %s --tenant_id %s --pass %s --email %s |sed -n '6p' | awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,username,tenant_cmd_op[1],password,email)
+            user_cmd_op=commands.getstatusoutput(user_cmd)
+            if(len(user_cmd_op[1])==32):
+                return shortcuts.render(request, 'horizon/register/index.html', {'username':username,'email':email})
             else:
-                er=_('Create Tenant fail, Tenant name perhaps exist.')
-        else:   
-            er=_('Error : Password length must be greater than 6, Confirm password must be same with Password.')
-            
-            return shortcuts.render(request, 'horizon/register/index.html', {'form': rf,'error':er})
-    else:
-        er=""
-        return shortcuts.render(request, 'horizon/register/index.html', {'form': rf,'error':er})
-    
-    #except:
-    
-    #else:
-    
+                er=_('Create User fail, User name perhaps exist')
+        else:
+            er=_('Create Tenant fail, Tenant name perhaps exist.')
+        
+    return shortcuts.render(request, 'horizon/register/index.html', {'form': rf,'error':er})
     
 

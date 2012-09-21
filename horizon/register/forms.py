@@ -1,39 +1,12 @@
 # vim: tabstop=4 shiftwidth=4 softtabstop=4
-
-# Copyright 2012 United States Government as represented by the
-# Administrator of the National Aeronautics and Space Administration.
-# All Rights Reserved.
-#
-# Copyright 2012 Nebula, Inc.
-#
-#    Licensed under the Apache License, Version 2.0 (the "License"); you may
-#    not use this file except in compliance with the License. You may obtain
-#    a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-#    Unless required by applicable law or agreed to in writing, software
-#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#    License for the specific language governing permissions and limitations
-#    under the License.
+from django.forms.util import ErrorList
+from django.utils.translation import ugettext as _
+from horizon import forms
+from horizon.utils import validators
 
 """
 Forms used for Horizon's register mechanisms.
 """
-
-
-from django.utils.translation import ugettext as _
-from horizon import  forms
-from horizon.utils import validators
-import logging
-
-
-
-
-LOG = logging.getLogger(__name__)
-
-
 
 class RegForm(forms.SelfHandlingForm):
     """ Form used for logging in a user.
@@ -45,7 +18,7 @@ class RegForm(forms.SelfHandlingForm):
     Subclass of :class:`~horizon.forms.SelfHandlingForm`.
     """
     
-    username = forms.CharField(label=_("User Name"),min_length=5,max_length=30,required=True,error_messages={'required': _('Please enter your username')})
+    username = forms.CharField(label=_("User Name"), min_length=5, max_length=30, required=True)
     email = forms.EmailField(label=_("E-mail"))
     password = forms.RegexField(
             label=_("Password"),
@@ -59,9 +32,12 @@ class RegForm(forms.SelfHandlingForm):
             widget=forms.PasswordInput(render_value=False))
     def __init__(self, *args, **kwargs):
         super(RegForm, self).__init__(*args, **kwargs)
-#    def clean(self):
-#        if self.password != self.confirm_password:
-#            raise ValidationError('Confirm password must be same with password.')
-#        # FIXME(gabriel): When we switch to region-only settings, we can
-        # remove this default region business.
+    def clean(self):
+        password = self.cleaned_data.get('password', '').strip()
+        confirm_password = self.cleaned_data.get('confirm_password', '').strip()
+        if len(password)<6 or len(password)>18 or password != confirm_password:
+            self._errors["password"] = ErrorList([_('Password must be between 8 and 18 characters.')])
+            self._errors["confirm_password"] = ErrorList([_('Confirm Password must be same with password.')])
+            del self.cleaned_data["confirm_password"]
+        return self.cleaned_data
 

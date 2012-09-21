@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: openstack-dashboard\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-05-29 11:47-0700\n"
-"PO-Revision-Date: 2012-09-21 10:53+0800\n"
+"PO-Revision-Date: 2012-09-21 14:17+0800\n"
 "Last-Translator: Shawn Liang <11315889@qq.com>\n"
 "Language-Team: Simplified Chinese <11315889@qq.com>\n"
 "Language: Simplified Chinese\n"
@@ -2612,16 +2612,14 @@ msgstr "注册"
 msgid "Return to Index"
 msgstr "返回首页"
 
-msgid ""
-"Error : Password length must be greater than 6, Confirm password must be "
-"same with Password."
-msgstr "密码长度至少6位，确认密码必须和密码相同"
-
 msgid "Create User fail, User name perhaps exist"
 msgstr "用户创建失败，用户名可能被占用，换个名字试试"
 
 msgid "Register Successfully"
 msgstr "注册成功"
+
+msgid "Confirm Password must be same with password."
+msgstr "确认密码必须和前面的密码相同"
 
 msgid "Please enter your username"
 msgstr "请输入用户名，长度5-30"
