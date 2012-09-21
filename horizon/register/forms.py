@@ -27,7 +27,6 @@ from django.utils.translation import ugettext as _
 from horizon import  forms
 from horizon.utils import validators
 import logging
-from django.core.exceptions import ValidationError
 
 
 
