@@ -2,11 +2,11 @@
 {% load i18n %}
 
 {% block modal-header %}{% trans "Register Successfully" %}{% endblock %}
-
+{% block modal_class %}login {% if hide %}modal hide{% endif %}{% endblock %}
 
 {% block modal-body %}
   <fieldset>
-  恭喜你，注册成功。你的注册信息为：
+  恭喜你，注册成功。你的注册信息为：<br>
  用户名:{{username}}<br>
  
 Email:{{email}}<br>

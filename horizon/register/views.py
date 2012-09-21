@@ -62,8 +62,7 @@ def register_do(request):
             
             return shortcuts.render(request, 'horizon/register/index.html', {'error':er})
     else:
-        er="Confirm password must be same with password."
-       # rf.ValidationError('Confirm password must be same with password.')
+        er=""
         return shortcuts.render(request, 'horizon/register/index.html', {'form': rf,'error':er})
     
     #except:
