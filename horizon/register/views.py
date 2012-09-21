@@ -6,8 +6,9 @@ Created on 2012-9-17
 
 from django import shortcuts
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-from horizon.register import forms as _regform
+from horizon.register.forms import RegForm
 from openstack_dashboard.views import user_home
 import ConfigParser
 import commands
@@ -15,7 +16,7 @@ import commands
 def register(request):
     if request.user.is_authenticated():
         return shortcuts.redirect(user_home(request.user))
-    regform = _regform.RegForm()
+    regform = RegForm()
     request.session.clear()
     try:
         re=settings.REGISTER_ENABLED
@@ -31,32 +32,42 @@ def register(request):
 
 
 def register_do(request):
-    regform = _regform.RegForm()
-    username = request.POST['username']
-    password=request.POST['password']
-    comfirm_password=request.POST['confirm_password']
-    tenantname=username
-    email = request.POST['email']
-    #except:
-    if(len(username)>3 and len(password)>5 and password==comfirm_password):
-        cfg=ConfigParser.ConfigParser()
-        cfg.read('/etc/nova/api-paste.ini')
-        keystone_cfg=dict(cfg.items('filter:authtoken'))
-        tenant_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s tenant-create --name %s |grep id |awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,tenantname)
-        tenant_cmd_op=commands.getstatusoutput(tenant_cmd)
-        if(len(tenant_cmd_op[1])==32):
-            user_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s user-create --name %s --tenant_id %s --pass %s --email %s |sed -n '6p' | awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,username,tenant_cmd_op[1],password,email)
-            user_cmd_op=commands.getstatusoutput(user_cmd)
-            if(len(user_cmd_op[1])==32):
-                return shortcuts.render(request, 'horizon/register/register_do.html', {'username':username,'email':email})
+    rf=RegForm(request.POST)
+    if rf.is_valid():
+        #assert False
+        d=rf.cleaned_data 
+        username = d['username']
+        password=d['password']
+        comfirm_password=d['confirm_password']
+        tenantname=username
+        email = d['email']
+        if(len(password)>6,password==comfirm_password):
+            #assert False
+            cfg=ConfigParser.ConfigParser()
+            cfg.read('/etc/nova/api-paste.ini')
+            keystone_cfg=dict(cfg.items('filter:authtoken'))
+            tenant_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s tenant-create --name %s |grep id |awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,tenantname)
+            tenant_cmd_op=commands.getstatusoutput(tenant_cmd)
+            if(len(tenant_cmd_op[1])==32):
+                user_cmd="/usr/bin/keystone --os_tenant_name=%s --os_username=%s --os_password=%s --os_auth_url=%s user-create --name %s --tenant_id %s --pass %s --email %s |sed -n '6p' | awk '{print $4}'" % (keystone_cfg['admin_tenant_name'],keystone_cfg['admin_user'],keystone_cfg['admin_password'],settings.OPENSTACK_KEYSTONE_URL,username,tenant_cmd_op[1],password,email)
+                user_cmd_op=commands.getstatusoutput(user_cmd)
+                if(len(user_cmd_op[1])==32):
+                    return shortcuts.render(request, 'horizon/register/register_do.html', {'username':username,'email':email})
+                else:
+                    er=_('Create User fail, User name perhaps exist')
             else:
-                er=_('Create User fail, User name perhaps exist')
-        else:
-            er=_('Create User fail, User name perhaps exist')
-    else:   
-        er=_('Error : Username length must be greater than 3, Password length must be greater than 6, Confirm password must be same with Password.')
-        
-    return shortcuts.render(request, 'horizon/register/index.html', {'form': regform,'error':er})
+                er=_('Create Tenant fail, Tenant name perhaps exist.')
+        else:   
+            er=_('Error : Password length must be greater than 6, Confirm password must be same with Password.')
+            
+            return shortcuts.render(request, 'horizon/register/index.html', {'error':er})
+    else:
+        er="Confirm password must be same with password."
+       # rf.ValidationError('Confirm password must be same with password.')
+        return shortcuts.render(request, 'horizon/register/index.html', {'form': rf,'error':er})
+    
+    #except:
+    
     #else:
     
     

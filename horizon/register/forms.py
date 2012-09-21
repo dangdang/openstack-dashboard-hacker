@@ -27,7 +27,7 @@ from django.utils.translation import ugettext as _
 from horizon import  forms
 from horizon.utils import validators
 import logging
-
+from django.core.exceptions import ValidationError
 
 
 
@@ -46,19 +46,23 @@ class RegForm(forms.SelfHandlingForm):
     Subclass of :class:`~horizon.forms.SelfHandlingForm`.
     """
     
-    username = forms.CharField(label=_("User Name"),max_length=30,required=True,error_messages={'required': _('Please enter your username')})
+    username = forms.CharField(label=_("User Name"),min_length=5,max_length=30,required=True,error_messages={'required': _('Please enter your username')})
     email = forms.EmailField(label=_("E-mail"))
     password = forms.RegexField(
             label=_("Password"),
             widget=forms.PasswordInput(render_value=False),
             regex=validators.password_validator(),
             error_messages={'invalid': validators.password_validator_msg()})
+    #error_messages={'required': _('Confirm Password must be same with password.')}
     confirm_password = forms.CharField(
             label=_("Confirm Password"),
             required=False,
             widget=forms.PasswordInput(render_value=False))
     def __init__(self, *args, **kwargs):
         super(RegForm, self).__init__(*args, **kwargs)
-        # FIXME(gabriel): When we switch to region-only settings, we can
+#    def clean(self):
+#        if self.password != self.confirm_password:
+#            raise ValidationError('Confirm password must be same with password.')
+#        # FIXME(gabriel): When we switch to region-only settings, we can
         # remove this default region business.
 
