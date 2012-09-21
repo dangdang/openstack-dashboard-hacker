@@ -1,7 +1,7 @@
 {% extends "horizon/common/_modal_form.html" %}
 {% load i18n %}
 {% block modal-header %}{% trans "Register Successfully" %}{% endblock %}
-
+{% block modal_class %}login {% if hide %}modal hide{% endif %}{% endblock %}
 
 {% block modal-body %}
   <fieldset>
